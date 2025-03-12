@@ -57,10 +57,14 @@ p {
 }
 
 @media (max-width: 768px) {
+    body {
+        display: flex;
+        flex-direction: column;
+    }
     .navbar {
         width: 100%;
-        height: auto;
         position: relative;
+        height: auto;
         padding: 20px;
     }
     .content {
