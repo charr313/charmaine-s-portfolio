@@ -11,10 +11,11 @@
 body {
     display: flex;
     font-family: 'Playfair Display', serif;
-    background-color: #f8f3f7;
+    background: linear-gradient(to right, #fde4ec, #f8f3f7);
     color: black;
     margin: 0;
     padding: 0;
+    top: 0;
 }
 
 .navbar {
@@ -25,6 +26,7 @@ body {
     height: 100vh;
     background: linear-gradient(to bottom, #fde4ec, #ffd3dd);
     padding: 40px 20px;
+    border-right: 5px
 }
 .navbar h1 {
     font-size: 24px;
@@ -56,9 +58,8 @@ body {
 }
 
 .content section {
-    margin-top: 150px;
-    margin: 50px;
-    height: 50vh;
+    margin-bottom: 50px;
+    min-height: 50vh;
 }
 .content section h1:not(:first-child) {
     font-size: 32px;
