@@ -1,32 +1,89 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap";
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
 
 body {
-    color:black;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    display: flex;
+    font-family: 'Playfair Display', serif;
+    background-color: #f8f3f7;
+    color: black;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar {
+    position: fixed;
     left: 0;
     top: 0;
-    padding: 20px;
-    position: fixed;
+    width: 280px;
     height: 100vh;
-    width: auto;
-    display: block;
-    box-sizing: border-box;
-    background-color: rgb(255, 216, 222);
+    background: linear-gradient(to bottom, #fde4ec, #ffd3dd);
+    padding: 40px 20px;
 }
-
+.navbar h1 {
+    font-size: 24px;
+    color: black;
+    margin-bottom: 20px;
+}
 .navbar-item {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 20px;
-    padding-left: 10px;
-    padding-right: 50px;
+    margin: 15px 0;
+}
+.navbar-item a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+.navbar-item a:hover {
+    color: #d6336c;
 }
 
-.navbar-item a {
-    text-decoration: none !important;
-    color: black !important;
+.navbar-item a.active {
+    color: #d6336c;
+    font-weight: bold;
+}
 
+.content {
+    margin-left: 300px;
+    padding: 50px;
+    max-width: auto;
+}
+
+.content section {
+    margin-top: 150px;
+    margin: 50px;
+    height: 50vh;
+}
+.content section h1:not(:first-child) {
+    font-size: 32px;
+    margin-top: 150px;
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+    .navbar {
+        width: 100%;
+        position: relative;
+        height: auto;
+        padding: 20px;
+    }
+    .content {
+        margin-left: 0;
+        padding: 20px;
+    }
 }
