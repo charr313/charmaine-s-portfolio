@@ -5,6 +5,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -12,15 +13,17 @@ body {
     font-family: 'Playfair Display', serif;
     background-color: #f8f3f7;
     color: black;
-    overflow: hidden ;
+    margin: 0;
+    padding: 0;
 }
+
 .navbar {
     position: fixed;
     left: 0;
     top: 0;
     width: 280px;
     height: 100vh;
-    background: linear-gradient(to bottom, #fde4ec, #fbe3e8);
+    background: linear-gradient(to bottom, #fde4ec, #ffd3dd);
     padding: 40px 20px;
 }
 .navbar h1 {
@@ -40,18 +43,29 @@ body {
 .navbar-item a:hover {
     color: #d6336c;
 }
+
+.navbar-item a.active {
+    color: #d6336c;
+    font-weight: bold;
+}
+
 .content {
     margin-left: 300px;
     padding: 50px;
     max-width: auto;
 }
-section {
-    margin-bottom: 50px;
+
+.content section {
+    margin-top: 150px;
+    margin: 50px;
+    height: 50vh;
 }
-h1 {
+.content section h1:not(:first-child) {
     font-size: 32px;
+    margin-top: 150px;
     margin-bottom: 15px;
 }
+
 p {
     font-size: 18px;
     line-height: 1.6;
