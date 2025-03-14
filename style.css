@@ -91,6 +91,7 @@ body {
 
 .section {
     margin-bottom: 60px;
+    height: 50vh;
 }
 
 .section-title {
