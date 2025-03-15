@@ -1,100 +1,92 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Blob animation setup
-    const canvas = document.getElementById('blob-canvas');
-    const ctx = canvas.getContext('2d');
+document.addEventListener('DOMContentLoaded', () => { // wait for the page to load before running this script
+    const canvas = document.getElementById('blob-canvas'); // grab the canvas from the html
+    const ctx = canvas.getContext('2d'); // get the 2d drawing context for the canvas
 
-    // Set canvas size
+    // function to make the canvas as big as the window
     const setCanvasSize = () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth; // set width to match window
+        canvas.height = window.innerHeight; // set height to match window
     };
-    setCanvasSize();
-    window.addEventListener('resize', setCanvasSize);
+    setCanvasSize(); // call it once to set size on page load
+    window.addEventListener('resize', setCanvasSize); // update canvas size when window resizes
 
-    // Blob properties
-    let blob = {
-        x: canvas.width / 2,
-        y: canvas.height / 2,
-        radius: 200,
-        color: '#9B6B9B', // Updated color
-        targetX: canvas.width / 2,
-        targetY: canvas.height / 2
+    let blob = { // set blob properties
+        x: canvas.width / 2, // start in the center of the screen (x-axis)
+        y: canvas.height / 2, // start in the center of the screen (y-axis)
+        radius: 200, // size of the blob, can change if uw
+        targetX: canvas.width / 2, // where it wants to go (starts centered)
+        targetY: canvas.height / 2 // same as above, but for y-axis
     };
 
-    // Update blob position based on mouse movement
-    document.addEventListener('mousemove', (e) => {
-        blob.targetX = e.clientX;
-        blob.targetY = e.clientY;
+    // make the blob follow the cursor
+    document.addEventListener('mousemove', (e) => { // listen for mouse movement and set e to the position of the mouse
+        blob.targetX = e.clientX; // update target x to mouse x
+        blob.targetY = e.clientY; // update target y to mouse y
     });
 
-    // Animation function
     function animate() {
-        // Clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // wipe canvas clean every frame
 
-        // Smooth movement
-        blob.x += (blob.targetX - blob.x) * 0.1;
-        blob.y += (blob.targetY - blob.y) * 0.1;
+        // smooth movement by moving 10% towards target each frame
+        blob.x += (blob.targetX - blob.x) * 0.075;
+        blob.y += (blob.targetY - blob.y) * 0.075;
 
-        // Draw dissolved blob
+        // create a gradient so the blob looks fancy
         const gradient = ctx.createRadialGradient(
-            blob.x, blob.y, 0,
-            blob.x, blob.y, blob.radius
+            blob.x, blob.y, 0, // start of gradient (center)
+            blob.x, blob.y, blob.radius // end of gradient (edge of blob)
         );
-        // Update the gradient colors
-        gradient.addColorStop(0, 'rgba(155, 107, 155, 0.36)');
-        gradient.addColorStop(1, 'rgba(155, 107, 155, 0)');
+        gradient.addColorStop(0, 'rgba(255, 0, 255, 0.27)'); // inner color
+        gradient.addColorStop(1, 'rgba(155, 107, 155, 0)'); // outer color
 
+        // draw the blob (a big circle with the gradient fill)
         ctx.beginPath();
-        ctx.fillStyle = gradient;
-        ctx.arc(blob.x, blob.y, blob.radius, 0, Math.PI * 2);
+        ctx.fillStyle = gradient; // use the gradient for fill
+        ctx.arc(blob.x, blob.y, blob.radius, 0, Math.PI * 2); // draw circle
         ctx.fill();
 
-        requestAnimationFrame(animate);
+        requestAnimationFrame(animate); // loop the animation forever
     }
 
-    // Start animation
-    animate();
+    animate(); // start the animation
 
-    // Smooth scrolling for navigation links
+    // make smooth scrolling for nav links
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
+            e.preventDefault(); // stop default jumpy scroll behavior
+            const targetId = link.getAttribute('href'); // get target section id
+            const targetSection = document.querySelector(targetId); // find the section
             window.scrollTo({
-                top: targetSection.offsetTop - 40,
-                behavior: 'smooth'
+                top: targetSection.offsetTop - 40, // scroll to it (minus 40px for spacing)
+                behavior: 'smooth' // smooth scrolling effect
             });
         });
     });
 
-    // Intersection Observer for section highlighting
-    const sections = document.querySelectorAll('.section');
-    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('.section'); // get all sections
+    const navLinks = document.querySelectorAll('.nav-link'); // get all nav links
 
     const observerOptions = {
-        root: null,
-        rootMargin: '-50% 0px',
-        threshold: 0
+        root: null, // observe the whole viewport
+        rootMargin: '-50% 0px', // trigger when section is 50% in view
+        threshold: 0 // as soon as it enters, trigger
     };
 
+    // function to update active link based on section in view
     const observerCallback = (entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Remove active class from all links
-                navLinks.forEach(link => link.classList.remove('active'));
+            if (entry.isIntersecting) { // check if section is in view
+                navLinks.forEach(link => link.classList.remove('active')); // remove active from all
                 
-                // Add active class to corresponding link
-                const activeId = entry.target.getAttribute('id');
-                const activeLink = document.querySelector(`.nav-link[href="#${activeId}"]`);
+                const activeId = entry.target.getAttribute('id'); // get id of the section
+                const activeLink = document.querySelector(`.nav-link[href="#${activeId}"]`); // find matching nav link
                 if (activeLink) {
-                    activeLink.classList.add('active');
+                    activeLink.classList.add('active'); // add active class to correct link
                 }
             }
         });
     };
 
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-    sections.forEach(section => observer.observe(section));
+    const observer = new IntersectionObserver(observerCallback, observerOptions); // create observer
+    sections.forEach(section => observer.observe(section)); // observe all sections
 });
