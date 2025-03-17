@@ -89,7 +89,7 @@ body {
 
 .section {
     margin-bottom: 60px;
-    height: 50vh;
+    height: auto;
 }
 
 .section-title {
@@ -143,7 +143,7 @@ body {
 
 .carousel-container {
     position: relative;
-    width: 40vw;
+    width: auto;
     padding-left: calc(20vw / 6);
     padding-right: calc(20vw / 3);
     overflow: hidden;
@@ -168,20 +168,6 @@ body {
     aspect-ratio: 4 / 3;
     object-fit: cover;
     flex-shrink: 0;
-}
-
-.carousel-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("Images/Item-6_Jakarta-Trip24_GOJEK-Presentation.jpg");
-    background-size: cover;
-    background-position: center;
-    filter: blur(24px);
-    z-index: -1;
 }
 
 .pagination-arrows {
@@ -240,6 +226,7 @@ body {
 }
 
 .dots {
+    height: 50px;
     text-align: center;
     margin-top: 10px;
 }
