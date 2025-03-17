@@ -1,54 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => { // wait for the page to load before running this script
-    const canvas = document.getElementById('blob-canvas'); // grab the canvas from the html
-    const ctx = canvas.getContext('2d'); // get the 2d drawing context for the canvas
-
-    // function to make the canvas as big as the window
-    const setCanvasSize = () => {
-        canvas.width = window.innerWidth; // set width to match window
-        canvas.height = window.innerHeight; // set height to match window
-    };
-    setCanvasSize(); // call it once to set size on page load
-    window.addEventListener('resize', setCanvasSize); // update canvas size when window resizes
-
-    let blob = { // set blob properties
-        x: canvas.width / 2, // start in the center of the screen (x-axis)
-        y: canvas.height / 2, // start in the center of the screen (y-axis)
-        radius: 200, // size of the blob, can change if uw
-        targetX: canvas.width / 2, // where it wants to go (starts centered)
-        targetY: canvas.height / 2 // same as above, but for y-axis
-    };
-
-    // make the blob follow the cursor
-    document.addEventListener('mousemove', (e) => { // listen for mouse movement and set e to the position of the mouse
-        blob.targetX = e.clientX; // update target x to mouse x
-        blob.targetY = e.clientY; // update target y to mouse y
-    });
-
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // wipe canvas clean every frame
-
-        // smooth movement by moving 10% towards target each frame
-        blob.x += (blob.targetX - blob.x) * 0.075;
-        blob.y += (blob.targetY - blob.y) * 0.075;
-
-        // create a gradient so the blob looks fancy
-        const gradient = ctx.createRadialGradient(
-            blob.x, blob.y, 0, // start of gradient (center)
-            blob.x, blob.y, blob.radius // end of gradient (edge of blob)
-        );
-        gradient.addColorStop(0, 'rgba(255, 0, 255, 0.27)'); // inner color
-        gradient.addColorStop(1, 'rgba(155, 107, 155, 0)'); // outer color
-
-        // draw the blob (a big circle with the gradient fill)
-        ctx.beginPath();
-        ctx.fillStyle = gradient; // use the gradient for fill
-        ctx.arc(blob.x, blob.y, blob.radius, 0, Math.PI * 2); // draw circle
-        ctx.fill();
-
-        requestAnimationFrame(animate); // loop the animation forever
-    }
-
-    animate(); // start the animation
 
     // make smooth scrolling for nav links
     document.querySelectorAll('.nav-link').forEach(link => {
@@ -90,3 +40,92 @@ document.addEventListener('DOMContentLoaded', () => { // wait for the page to lo
     const observer = new IntersectionObserver(observerCallback, observerOptions); // create observer
     sections.forEach(section => observer.observe(section)); // observe all sections
 });
+
+const carousel = document.querySelector('.carousel');
+const images = document.querySelectorAll('.carousel-item');
+const prev = document.querySelector('.prev');
+const next = document.querySelector('.next');
+const dotsContainer = document.querySelector('.dots');
+const paginationArrows = document.querySelector('.pagination-arrows');
+
+let index = 0;
+let isAnimating = false;
+const totalImages = images.length;
+let autoSlideTimeout;
+
+let startX = 0;
+let currentX = 0;
+let isDragging = false;
+
+// Prevent pagination arrows from interfering with touch events
+paginationArrows.addEventListener('touchstart', (e) => e.stopPropagation());
+paginationArrows.addEventListener('touchmove', (e) => e.stopPropagation());
+paginationArrows.addEventListener('touchend', (e) => e.stopPropagation());
+
+// Create dots
+const dots = Array.from({ length: totalImages }, (_, i) => {
+    const dot = document.createElement('span');
+    dot.classList.add('dot');
+    dot.dataset.index = i;
+    dot.addEventListener('click', () => {
+        moveTo(i);
+        resetAutoSlide();
+    });
+    dotsContainer.appendChild(dot);
+    return dot;
+});
+
+function updateCarousel() {
+    const imageWidth = images[0].clientWidth;
+    carousel.style.transition = 'transform 0.3s ease-in-out';
+    carousel.style.transform = translateX(-${index * imageWidth}px);
+    updateDots();
+}
+
+function moveTo(i) {
+    if (isAnimating) return;
+    index = i;
+    updateCarousel();
+}
+
+function updateDots() {
+    dots.forEach(dot => dot.classList.remove('active'));
+    dots[index].classList.add('active');
+}
+
+prev.addEventListener('click', () => {
+    if (isAnimating) return;
+    isAnimating = true;
+    index = (index - 1 + totalImages) % totalImages;
+    updateCarousel();
+    resetAutoSlide();
+});
+
+next.addEventListener('click', () => {
+    if (isAnimating) return;
+    isAnimating = true;
+    index = (index + 1) % totalImages;
+    updateCarousel();
+    resetAutoSlide();
+});
+
+// Reset isAnimating after animation
+carousel.addEventListener('transitionend', () => {
+    isAnimating = false;
+});
+
+// Auto slide function
+function autoSlide() {
+    autoSlideTimeout = setTimeout(() => {
+        next.click();
+    }, 5000);
+}
+
+function resetAutoSlide() {
+    clearTimeout(autoSlideTimeout);
+    autoSlide();
+}
+
+// Initialize dots and start auto-slide
+updateDots();
+autoSlide();

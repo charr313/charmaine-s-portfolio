@@ -1,5 +1,6 @@
 @import "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap";
 
+
 :root {
     --bg-color: #fff5fe;
     --text-color: #000000;
@@ -29,15 +30,6 @@ body {
     overflow-x: hidden;
 }
 
-#blob-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -5;
-    pointer-events: none;
-}
 /* Sidebar styles */
 .sidebar {
     position: fixed;
@@ -147,8 +139,149 @@ body {
         margin-left: 0;
         padding: 20px;
     }
+}
 
-    #blob-canvas {
-        display: none;
-    }
+.carousel-container {
+    position: relative;
+    width: 40vw;
+    padding-left: calc(20vw / 6);
+    padding-right: calc(20vw / 3);
+    overflow: hidden;
+}
+
+.carousel-wrapper {
+    width: 40vw;
+    display: flex;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.carousel {
+    /* overflow: hidden; */
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    white-space: nowrap;
+}
+
+.carousel-item {
+    width: 40vw;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.carousel-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("Images/Item-6_Jakarta-Trip24_GOJEK-Presentation.jpg");
+    background-size: cover;
+    background-position: center;
+    filter: blur(24px);
+    z-index: -1;
+}
+
+.pagination-arrows {
+    position: absolute;
+    width: 40vw;
+    height: 100%;
+    overflow: hidden;
+}
+
+.prev,
+.next {
+    transform: scale(1.5) translate(0,-50%);
+    position: absolute;
+    top: 50%;
+    background: rgba(0, 0, 0, 0.0);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    transition: background 0.2s;
+}
+
+.carousel-wrapper:hover .prev {
+    transform: scale(1.5) translate(0,-50%) translateX(0);
+    transition: transform 0.3s;
+}
+
+.carousel-wrapper:hover .next {
+    right:0px;
+    transform: scale(1.5) translate(0,-50%) translateX(0);
+    transition: transform 0.3s
+}
+
+.carousel-wrapper:hover > .dot {
+    transform: scale(1)
+}
+
+.prev {
+    left: 0px;
+    border-radius: 0px 15px 15px 0px;
+    transform: scale(1.5) translate(0,-50%) translateX(-20px);
+    transition: transform 0.3s
+}
+
+.next {
+    right:0px;
+    border-radius: 15px 0px 0px 15px;
+    transform: scale(1.5) translate(0,-50%) translateX(20px);
+    transition: transform 0.3s
+}
+
+.prev:hover,
+.next:hover {
+    background: rgba(0, 0, 0, 0.1);
+    transition: background 0.2s;
+}
+
+.dots {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    margin: 5px;
+    background: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.3s, background 0.3s;
+    filter: invert(1);
+    transform: scale(0)
+}
+
+.dot.active {
+    background: #333;
+    opacity: 1;
+}
+
+.dot:hover {
+    opacity: 1;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    position: relative;
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.carousel-item img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.3s ease-in-out;
 }
