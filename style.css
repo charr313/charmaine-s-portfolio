@@ -5,9 +5,10 @@
     --bg-color: #fff5fe;
     --text-color: #000000;
     --heading-color: #000000;
-    --accent-color: #ec86ec;
-    --primary-color: #eaaee4;
+    --accent-color: #f596b5;
+    --primary-color: #e6a5ce;
     --nav-height: 100px;
+    --card-background: #ffe0ee;
 }
 
 * {
@@ -271,4 +272,18 @@ body {
     object-fit: cover;
     display: block;
     transition: filter 0.3s ease-in-out;
+}
+
+.leadership-cards {
+    width: 100%;
+    height: auto;
+}
+
+.leadership-card {
+    width: 80%;
+    background-color: var(--card-background);
+    border-radius: 15px;
+    margin: 15px;
+    padding: 10px;
+    border: 2px solid var(--accent-color);
 }
